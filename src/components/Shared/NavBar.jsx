@@ -20,12 +20,13 @@ const NavBar = () => {
           <HiMenuAlt4 />
           <div className="text-gray-700 inline-flex items-center gap-x-2">
             <div className="">
-              <span className="text-blue-500">G</span>
-              <span className="text-red-600">o</span>
-              <span className="text-orange-500">o</span>
-              <span className="text-blue-500">g</span>
-              <span className="text-green-500">l</span>
-              <span className="text-red-600">e</span>
+              <span className="text-blue-500">S</span>
+              <span className="text-red-600">h</span>
+              <span className="text-orange-500">i</span>
+              <span className="text-blue-500">k</span>
+              <span className="text-green-500">h</span>
+              <span className="text-red-600">a</span>
+              <span className="text-indigo-600">o</span>
             </div>
             Classroom
           </div>

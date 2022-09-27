@@ -6,9 +6,17 @@ import {
   Input,
   Typography,
 } from '@material-tailwind/react';
+import { useEffect } from 'react';
+import {
+  useAuthState,
+  useCreateUserWithEmailAndPassword,
+  useSignInWithGoogle,
+} from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useNavigate } from 'react-router-dom';
+import auth from '../../firebase.init';
 
 const Register = () => {
   const {
@@ -18,18 +26,38 @@ const Register = () => {
     getValues,
   } = useForm();
 
+  const [createUserWithEmailAndPassword, formUser, formLoading, formError] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const [user] = useAuthState(auth);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    // try {
-    //   await createUserWithEmailAndPassword(data.email, data.password);
-    //   navigate('/student-profile-update');
-    //   toast.success('Successfully Account Registered.');
-    // } catch (error) {
-    //   toast.error(error.message);
-    //   error.message = '';
-    // }
+    try {
+      await createUserWithEmailAndPassword(data.email, data.password);
+    } catch (error) {
+      toast.error(error.message);
+      error.message = '';
+    }
   };
+
+  useEffect(() => {
+    const currentUser = user || formUser || gUser;
+    if (currentUser) {
+      navigate('/');
+      toast.success('Successfully Account Registered.');
+    }
+  }, [user, formUser, gUser, navigate]);
+
+  if (formError || gError) {
+    const error = formError || gError;
+    toast.error(error.message);
+    error.message = '';
+  }
+
+  if (formLoading || gLoading) {
+    return <>loading</>;
+  }
   return (
     <section className="flex justify-center mt-32 container px-4 md:px-0 mx-auto">
       <Card
@@ -161,9 +189,9 @@ const Register = () => {
           <div className="">
             <div className="sm:flex justify-between text-center">
               <Button
-                // onClick={() => {
-                //   signInWithGoogle();
-                // }}
+                onClick={() => {
+                  signInWithGoogle();
+                }}
                 variant="outlined"
                 color="indigo"
                 className="w-full inline-flex justify-center items-center text-xl h-10 min-h-10 capitalize"

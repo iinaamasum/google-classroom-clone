@@ -6,9 +6,16 @@ import {
   Input,
   Typography,
 } from '@material-tailwind/react';
+import { useEffect } from 'react';
+import {
+  useSignInWithEmailAndPassword,
+  useSignInWithGoogle,
+} from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import auth from '../../firebase.init';
 
 const Login = () => {
   const {
@@ -16,10 +23,32 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
+  const [signInWithEmailAndPassword, formUser, formLoading, formError] =
+    useSignInWithEmailAndPassword(auth);
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const onSubmit = async (data) => {
-    // await signInWithEmailAndPassword(data.email, data.password);
-    alert('hi');
+    await signInWithEmailAndPassword(data.email, data.password);
   };
+
+  useEffect(() => {
+    const currentUser = formUser || gUser;
+    if (currentUser) {
+      navigate('/');
+      toast.success('Successfully Account Registered.');
+    }
+  }, [formUser, gUser, navigate]);
+
+  if (gError || formError) {
+    const error = gError || formError;
+    toast.error(error.message);
+    error.message = '';
+  }
+
+  if (gLoading || formLoading) {
+    return <>loading</>;
+  }
+
   return (
     <section className="flex justify-center mt-32 container px-4 md:px-0 mx-auto">
       <Card
@@ -114,9 +143,9 @@ const Login = () => {
           <div className="">
             <div className="sm:flex justify-between text-center">
               <Button
-                // onClick={() => {
-                //   signInWithGoogle();
-                // }}
+                onClick={() => {
+                  signInWithGoogle();
+                }}
                 variant="outlined"
                 color="indigo"
                 className="w-full inline-flex justify-center items-center text-xl h-10 min-h-10 capitalize"
