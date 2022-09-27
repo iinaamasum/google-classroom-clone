@@ -6,10 +6,20 @@ import {
   Input,
   Typography,
 } from '@material-tailwind/react';
+import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = async (data) => {
+    // await signInWithEmailAndPassword(data.email, data.password);
+    alert('hi');
+  };
   return (
     <section className="flex justify-center mt-32 container px-4 md:px-0 mx-auto">
       <Card
@@ -20,11 +30,73 @@ const Login = () => {
           <Typography variant="h2" className="text-center my-5">
             Log<span className="text-orange-600">in</span>
           </Typography>
-          <Input label="Email" size="lg" />
-          <Input label="Password" size="lg" />
+          <form id="login-form" onSubmit={handleSubmit(onSubmit)} className="">
+            {/* email section  */}
+            <div className="relative">
+              <Input
+                label="Email"
+                size="lg"
+                className=""
+                {...register('email', {
+                  required: {
+                    value: true,
+                    message: '⚠ Please enter a valid email address.',
+                  },
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
+                    message: '⚠ Invalid Email Provided',
+                  },
+                })}
+              />
+              <label className="text-xs flex absolute top-[44px] left-[3px]">
+                {errors.email?.type === 'required' && (
+                  <span className="label-text-alt text-red-600">
+                    {errors.email.message}
+                  </span>
+                )}
+                {errors.email?.type === 'pattern' && (
+                  <span className="label-text-alt text-red-600">
+                    {errors.email.message}
+                  </span>
+                )}
+              </label>
+            </div>
+            {/* password section  */}
+            <div className="mt-[24px] relative">
+              <Input
+                label="Password"
+                size="lg"
+                {...register('password', {
+                  required: {
+                    value: true,
+                    message: '⚠ Password is required.',
+                  },
+                  pattern: {
+                    value: /(?=.*[!#$%&?^*@~() "])(?=.{8,})/,
+                    message:
+                      '⚠ Password length should be 8 including a special char',
+                  },
+                })}
+              />
+              <label className="text-xs flex absolute top-[44px] left-[3px]">
+                {errors.password?.type === 'required' && (
+                  <span className="label-text-alt text-red-600">
+                    {errors.password.message}
+                  </span>
+                )}
+                {errors.password?.type === 'pattern' && (
+                  <span className="label-text-alt text-red-600">
+                    {errors.password.message}
+                  </span>
+                )}
+              </label>
+            </div>
+          </form>
         </CardBody>
         <CardFooter className="pt-0">
           <Button
+            form="login-form"
+            type="submit"
             variant="gradient"
             color="indigo"
             fullWidth
