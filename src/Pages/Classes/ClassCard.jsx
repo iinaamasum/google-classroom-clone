@@ -4,25 +4,32 @@ import {
   CardFooter,
   Typography,
 } from '@material-tailwind/react';
+import { BsFolderFill, BsThreeDotsVertical } from 'react-icons/bs';
+import { GrLineChart } from 'react-icons/gr';
+import banner from '../../assets/Honors.jpg';
 
 const ClassCard = () => {
   return (
-    <Card className="w-[300px] shadow rounded-md hover__effect">
-      <CardBody className="text-center">
-        <Typography variant="h5" className="mb-2">
-          Cozy 5 Stars Apartment
-        </Typography>
-        <Typography>
-          The place is close to Barceloneta Beach and bus stop just 2 min by
-          walk and near to "Naviglio" where you can enjoy the main night life in
-          Barcelona.
-        </Typography>
-      </CardBody>
-      <CardFooter divider className="flex items-center justify-between py-3">
-        <Typography variant="small">$899/night</Typography>
-        <Typography variant="small" color="gray" className="flex gap-1">
-          <i className="fas fa-map-marker-alt fa-sm mt-[3px]" />
-          Barcelona, Spain
+    <Card className="w-[310px] shadow rounded-md hover__effect">
+      <div
+        style={{
+          backgroundImage: `url(${banner})`,
+        }}
+        className="h-[120px] w-full rounded-t-md bg-cover bg-center bg-no-repeat flex justify-between items-center px-5 text-white"
+      >
+        <Typography variant="h4">Test Name</Typography>
+        <BsThreeDotsVertical size={25} />
+      </div>
+
+      <CardBody className="text-center py-[70px]"></CardBody>
+      <CardFooter divider className="flex items-center justify-end py-2">
+        <Typography variant="small" color="gray" className="flex gap-x-5">
+          <span className="p-[8px] hover:bg-[#dddeee] rounded-full cursor-pointer">
+            <GrLineChart size={22} />
+          </span>
+          <span className="p-[8px] hover:bg-[#dddeee] rounded-full cursor-pointer">
+            <BsFolderFill size={22} />
+          </span>
         </Typography>
       </CardFooter>
     </Card>
