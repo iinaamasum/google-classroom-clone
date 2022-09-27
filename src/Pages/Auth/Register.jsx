@@ -9,7 +9,7 @@ import {
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const Register = () => {
   return (
     <section className="flex justify-center mt-32 container px-4 md:px-0 mx-auto">
       <Card
@@ -18,10 +18,11 @@ const Login = () => {
       >
         <CardBody className="flex flex-col gap-4">
           <Typography variant="h2" className="text-center my-5">
-            Log<span className="text-orange-600">in</span>
+            <span className="text-orange-600">Reg</span>ister
           </Typography>
           <Input label="Email" size="lg" />
           <Input label="Password" size="lg" />
+          <Input label="Confirm Password" size="lg" />
         </CardBody>
         <CardFooter className="pt-0">
           <Button
@@ -30,7 +31,7 @@ const Login = () => {
             fullWidth
             className="capitalize text-xl h-10 min-h-10 inline-flex items-center justify-center"
           >
-            Login Now
+            Register Now
           </Button>
           <div className="flex justify-between items-center my-3 w-[90%] mx-auto">
             <div className="border-b-2 border-black w-full"></div>
@@ -55,9 +56,9 @@ const Login = () => {
             </div>
           </div>
           <Typography variant="small" className="mt-6 flex justify-center">
-            Don't have an account?
-            <Link to="/register" className="ml-1 font-bold text-blue-600">
-              Register Now
+            Already have an account?
+            <Link to="/login" className="ml-1 font-bold text-blue-600">
+              Login Now
             </Link>
           </Typography>
         </CardFooter>
@@ -66,4 +67,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
