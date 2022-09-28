@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import userImg from '../../assets/user.jpeg';
 import banner from '.././../assets/Honors.jpg';
+import AddedClassWork from './AddedClassWork';
 import CreateClassWork from './CreateClassWork';
 
 const ClassDetails = () => {
@@ -21,7 +22,7 @@ const ClassDetails = () => {
       <div className="flex items-start justify-between gap-8 mt-5">
         {/* left side  */}
         <div className="w-[250px]">
-          <div className="border-[1px] border-gray-500 rounded-md p-4">
+          <div className="border-[1px] border-opacity-50 border-gray-500 rounded-md p-4">
             <Typography
               variant="paragraph"
               className="inline-flex justify-between items-center w-full text-sm"
@@ -33,7 +34,7 @@ const ClassDetails = () => {
               CSHDDKA
             </Typography>
           </div>
-          <div className="border-[1px] border-gray-500 rounded-md p-4 mt-5">
+          <div className="border-[1px] border-opacity-50 border-gray-500 rounded-md p-4 mt-5">
             <Typography
               variant="paragraph"
               className="inline-flex justify-between items-center w-full text-sm"
@@ -50,28 +51,35 @@ const ClassDetails = () => {
         </div>
         {/* right side  */}
         <div className="w-full">
-          {createWork ? (
-            <CreateClassWork
-              createWork={createWork}
-              setCreateWork={setCreateWork}
-            />
-          ) : (
-            <>
-              {/* create announcement card  */}
-              <Card
-                onClick={() => setCreateWork(!createWork)}
-                style={{
-                  boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-                }}
-                className="w-full flex flex-row items-center gap-4 p-4 cursor-pointer hover:bg-[#e6e6eb69]"
-              >
-                <Avatar src={userImg} alt="avatar" variant="circular" />
-                <Typography variant="paragraph">
-                  Announce something to your class
-                </Typography>
-              </Card>
-            </>
-          )}
+          <>
+            {createWork ? (
+              <CreateClassWork
+                createWork={createWork}
+                setCreateWork={setCreateWork}
+              />
+            ) : (
+              <>
+                {/* create announcement card  */}
+                <Card
+                  onClick={() => setCreateWork(!createWork)}
+                  style={{
+                    boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                  }}
+                  className="w-full flex flex-row items-center gap-4 p-4 cursor-pointer hover:bg-[#e6e6eb69]"
+                >
+                  <Avatar src={userImg} alt="avatar" variant="circular" />
+                  <Typography variant="paragraph">
+                    Announce something to the class
+                  </Typography>
+                </Card>
+              </>
+            )}
+          </>
+          <div className="my-5 grid grid-cols-1 gap-5">
+            {[1, 2, 3].map((classPost) => (
+              <AddedClassWork />
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -1,4 +1,10 @@
-import { Button, Card, Textarea, Typography } from '@material-tailwind/react';
+import {
+  Button,
+  Card,
+  Input,
+  Textarea,
+  Typography,
+} from '@material-tailwind/react';
 import React from 'react';
 import { FiLink2, FiUpload } from 'react-icons/fi';
 
@@ -13,20 +19,27 @@ const CreateClassWork = ({ createWork, setCreateWork }) => {
       >
         <div className="">
           <Typography variant="h5" className="mt-2 mb-3">
-            Announcement Details
+            Announcement or class work creation form
           </Typography>
           <div className="">
-            <Textarea
-              name=""
-              color="gray"
-              variant="standard"
-              style={{
-                borderRadius: '0px',
-                borderBottom: '3px solid rgb(57 73 171)',
-              }}
-              className="bg-gray-50 w-full focus:border-0 focus:outline-none"
-              label="Write down the announcement"
-            />
+            <div className="">
+              <label htmlFor="">Title</label>
+              <Input
+                variant="standard"
+                className="bg-gray-50 w-full focus:border-0 focus:outline-none focus:ring-0 px-4"
+                placeholder="Announcement title"
+              />
+            </div>
+            <div className="my-3">
+              <label htmlFor="">Details</label>
+              <Textarea
+                name=""
+                color="blue"
+                variant="standard"
+                className="bg-gray-50 w-full focus:border-0 focus:outline-none"
+                placeholder="Write down the announcement body"
+              />
+            </div>
           </div>
         </div>
         <div className="my-2 flex items-center justify-between">
