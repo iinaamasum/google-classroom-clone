@@ -1,10 +1,14 @@
 import { Avatar } from '@material-tailwind/react';
+import { useState } from 'react';
 import { BsPlusLg } from 'react-icons/bs';
 import { HiMenuAlt4 } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import userImg from '../../assets/user.jpeg';
+import AddClassModal from '../../Pages/Classes/AddClassModal';
 
 const NavBar = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
   return (
     <section
       style={{
@@ -33,6 +37,7 @@ const NavBar = () => {
         </Link>
         <div className="flex items-center gap-x-3">
           <BsPlusLg
+            onClick={handleOpen}
             size={40}
             className="p-[10px] hover:bg-[#dddeee] rounded-full cursor-pointer"
           />
@@ -44,6 +49,7 @@ const NavBar = () => {
           />
         </div>
       </div>
+      {open && <AddClassModal open={open} handleOpen={handleOpen} />}
     </section>
   );
 };

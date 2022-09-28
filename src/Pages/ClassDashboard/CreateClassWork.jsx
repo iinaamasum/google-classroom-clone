@@ -26,7 +26,7 @@ const CreateClassWork = ({ createWork, setCreateWork }) => {
               <label htmlFor="">Title</label>
               <Input
                 variant="standard"
-                className="bg-gray-50 w-full focus:border-0 focus:outline-none focus:ring-0 px-4"
+                className="bg-gray-50 w-full focus:border-0 focus:outline-none focus:ring-0 px-3"
                 placeholder="Announcement title"
               />
             </div>
