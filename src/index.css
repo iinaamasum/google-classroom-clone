@@ -23,3 +23,7 @@ code {
   transition-duration: 200ms;
   cursor: pointer;
 }
+
+textarea {
+  padding: 10px;
+}

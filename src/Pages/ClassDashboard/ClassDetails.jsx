@@ -1,10 +1,12 @@
 import { Avatar, Card, Typography } from '@material-tailwind/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import userImg from '../../assets/user.jpeg';
 import banner from '.././../assets/Honors.jpg';
+import CreateClassWork from './CreateClassWork';
 
 const ClassDetails = () => {
+  const [createWork, setCreateWork] = useState(false);
   return (
     <section className="max-w-[1000px] mx-auto mt-[90px]">
       {/* class details upper portion  */}
@@ -48,17 +50,28 @@ const ClassDetails = () => {
         </div>
         {/* right side  */}
         <div className="w-full">
-          <Card
-            style={{
-              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-            }}
-            className="w-full flex flex-row items-center gap-4 p-4 cursor-pointer"
-          >
-            <Avatar src={userImg} alt="avatar" variant="circular" />
-            <Typography variant="paragraph">
-              Announce something to your class
-            </Typography>
-          </Card>
+          {createWork ? (
+            <CreateClassWork
+              createWork={createWork}
+              setCreateWork={setCreateWork}
+            />
+          ) : (
+            <>
+              {/* create announcement card  */}
+              <Card
+                onClick={() => setCreateWork(!createWork)}
+                style={{
+                  boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                }}
+                className="w-full flex flex-row items-center gap-4 p-4 cursor-pointer hover:bg-[#e6e6eb69]"
+              >
+                <Avatar src={userImg} alt="avatar" variant="circular" />
+                <Typography variant="paragraph">
+                  Announce something to your class
+                </Typography>
+              </Card>
+            </>
+          )}
         </div>
       </div>
     </section>
