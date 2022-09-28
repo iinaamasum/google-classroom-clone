@@ -9,19 +9,19 @@ import CreateClassWork from './CreateClassWork';
 const ClassDetails = () => {
   const [createWork, setCreateWork] = useState(false);
   return (
-    <section className="max-w-[1000px] mx-auto mt-[90px]">
+    <section className="max-w-[1000px] mx-auto mt-[90px] min-h-screen px-4">
       {/* class details upper portion  */}
       <div
         style={{
           backgroundImage: `url(${banner})`,
         }}
-        className="h-[30vh] rounded-lg flex items-end justify-start p-5 text-white"
+        className="h-[20vh] md:h-[30vh] rounded-lg flex items-end justify-start p-5 text-white"
       >
         <Typography variant="h3">Test Class</Typography>
       </div>
       <div className="flex items-start justify-between gap-8 mt-5">
         {/* left side  */}
-        <div className="w-[250px]">
+        <div className="w-[250px] hidden md:block">
           <div className="border-[1px] border-opacity-50 border-gray-500 rounded-md p-4">
             <Typography
               variant="paragraph"
