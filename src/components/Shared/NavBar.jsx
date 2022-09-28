@@ -1,6 +1,12 @@
-import { Avatar } from '@material-tailwind/react';
+import {
+  Avatar,
+  Button,
+  Menu,
+  MenuHandler,
+  MenuItem,
+  MenuList,
+} from '@material-tailwind/react';
 import { useState } from 'react';
-import { BsPlusLg } from 'react-icons/bs';
 import { HiMenuAlt4 } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import userImg from '../../assets/user.jpeg';
@@ -36,11 +42,18 @@ const NavBar = () => {
           </div>
         </Link>
         <div className="flex items-center gap-x-3">
-          <BsPlusLg
-            onClick={handleOpen}
-            size={40}
-            className="p-[10px] hover:bg-[#dddeee] rounded-full cursor-pointer"
-          />
+          <Menu>
+            <MenuHandler>
+              <Button className="bg-[#fff] hover:bg-[#dddeee] rounded-full cursor-pointer shadow-none hover:shadow-none h-11 w-9 text-current inline-flex items-center justify-center text-4xl font-thin">
+                +
+              </Button>
+            </MenuHandler>
+            <MenuList>
+              <MenuItem onClick={handleOpen}>Create Class</MenuItem>
+              <MenuItem>Join Class</MenuItem>
+            </MenuList>
+          </Menu>
+
           <Avatar
             className="h-11 w-11 p-1 hover:bg-[#dddeee] rounded-full cursor-pointer"
             src={userImg}
