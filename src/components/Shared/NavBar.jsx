@@ -44,7 +44,7 @@ const NavBar = () => {
         <div className="flex items-center gap-x-3">
           <Menu>
             <MenuHandler>
-              <Button className="bg-[#fff] hover:bg-[#dddeee] rounded-full cursor-pointer shadow-none hover:shadow-none h-11 w-9 text-current inline-flex items-center justify-center text-4xl font-thin">
+              <Button className="bg-[#fff] hover:bg-[#dddeee] rounded-full cursor-pointer shadow-none hover:shadow-none h-10 w-10 text-current inline-flex items-center justify-center text-4xl font-thin p-0">
                 +
               </Button>
             </MenuHandler>

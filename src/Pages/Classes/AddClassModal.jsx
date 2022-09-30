@@ -6,8 +6,10 @@ import {
   DialogHeader,
   Input,
 } from '@material-tailwind/react';
+import axios from 'axios';
 
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 const AddClassModal = ({ handleOpen, open }) => {
   const {
@@ -15,7 +17,30 @@ const AddClassModal = ({ handleOpen, open }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {};
+  const onSubmit = async (data) => {
+    try {
+      const sendDoc = {
+        ...data,
+        email: 'iinaamasum@gmail.com',
+      };
+      const result = await axios.post(
+        'http://localhost:5001/api/v1/class',
+        sendDoc
+      );
+      if (result?.data?.status === 'success') {
+        toast.success(
+          `${result.data?.result?.classTitle.toUpperCase()} is created`
+        );
+      } else {
+        toast.error(
+          'Class is not created. Please check your internet connection'
+        );
+      }
+    } catch (error) {
+      toast.error(error?.message);
+    }
+    handleOpen();
+  };
   return (
     <>
       <Dialog
@@ -23,12 +48,12 @@ const AddClassModal = ({ handleOpen, open }) => {
         handler={handleOpen}
         className="min-w-[350px] sm:min-w-[450px]"
       >
-        <DialogHeader className="w-full flex items-center justify-center text-3xl">
+        <DialogHeader className="w-full flex items-center justify-center text-3xl mt-5">
           Create Class
         </DialogHeader>
         <DialogBody className="pb-2">
           <form
-            id="register-student"
+            id="create-new-class"
             onSubmit={handleSubmit(onSubmit)}
             className="w-full md:w-[90%] mx-auto px-4"
           >
@@ -102,7 +127,6 @@ const AddClassModal = ({ handleOpen, open }) => {
               <Input
                 label="Room Number"
                 size="lg"
-                type="number"
                 className="bg-secondaryWhite"
                 {...register('roomNumber', {
                   required: {
@@ -121,24 +145,23 @@ const AddClassModal = ({ handleOpen, open }) => {
             </div>
           </form>
         </DialogBody>
-        <DialogFooter className="justify-center w-full md:w-[90%] mx-auto px-4">
+        <DialogFooter className="justify-center w-full md:w-[90%] mx-auto px-4 mb-4">
           <div className="grid grid-cols-2 gap-x-4 w-full px-4">
             <Button
               variant="red"
               color="red"
               onClick={handleOpen}
-              className="h-[40px] min-h-16 flex items-center justify-center"
+              className="h-[45px] min-h-16 flex items-center justify-center"
             >
               <span>Cancel</span>
             </Button>
             <Button
-              form="register-student"
+              form="create-new-class"
               type="submit"
               color="blue"
-              onClick={handleOpen}
-              className="h-[40px] min-h-16 flex items-center justify-center"
+              className="h-[45px] min-h-16 flex items-center justify-center"
             >
-              <span>Create Now</span>
+              <span>Create Class</span>
             </Button>
           </div>
         </DialogFooter>
