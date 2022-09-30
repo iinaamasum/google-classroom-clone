@@ -11,7 +11,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-const AddClassModal = ({ handleOpen, open }) => {
+const AddClassModal = ({ handleOpen, open, refetch }) => {
   const {
     register,
     handleSubmit,
@@ -19,25 +19,20 @@ const AddClassModal = ({ handleOpen, open }) => {
   } = useForm();
 
   const allBanner = [
-    'https://i.ibb.co/pQYx0MG/Honors.jpg',
-    'https://i.ibb.co/J2bHLs0/img-reachout.jpg',
-    'https://i.ibb.co/YTL7h9J/img-breakfast.jpg',
     'https://i.ibb.co/g3KwdR0/img-bookclub.jpg',
-    'https://ibb.co/L5ZXjjZ',
-    'https://ibb.co/sgf88t6',
-    'https://ibb.co/fQpFFT9',
-    'https://ibb.co/Xt4Pscd',
-    'https://ibb.co/8PnZ641',
+    'https://i.ibb.co/YTL7h9J/img-breakfast.jpg',
+    'https://i.ibb.co/J2bHLs0/img-reachout.jpg',
+    'https://i.ibb.co/pQYx0MG/Honors.jpg',
   ];
   const onSubmit = async (data) => {
     try {
       let selection = 10;
-      while (selection >= 9) {
+      while (selection >= 4) {
         selection = Number(Math.floor(Math.random() * 10));
       }
       const sendDoc = {
         ...data,
-        email: 'iinaamasum@gmail.com',
+        email: 'plabon@gmail.com',
         imgURL: allBanner[selection],
       };
       const result = await axios.post(
@@ -56,6 +51,7 @@ const AddClassModal = ({ handleOpen, open }) => {
     } catch (error) {
       toast.error(error?.message);
     }
+    refetch();
     handleOpen();
   };
   return (

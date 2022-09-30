@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import userImg from '../../assets/user.jpeg';
 import AddClassModal from '../../Pages/Classes/AddClassModal';
 
-const NavBar = () => {
+const NavBar = ({ refetch }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
   return (
@@ -62,7 +62,9 @@ const NavBar = () => {
           />
         </div>
       </div>
-      {open && <AddClassModal open={open} handleOpen={handleOpen} />}
+      {open && (
+        <AddClassModal open={open} handleOpen={handleOpen} refetch={refetch} />
+      )}
     </section>
   );
 };

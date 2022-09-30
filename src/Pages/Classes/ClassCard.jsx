@@ -4,13 +4,32 @@ import {
   CardFooter,
   Typography,
 } from '@material-tailwind/react';
-import { BsFolderFill, BsThreeDotsVertical } from 'react-icons/bs';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { BsFolderFill, BsTrash2 } from 'react-icons/bs';
 import { GrLineChart } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 import banner from '../../assets/Honors.jpg';
 
-const ClassCard = ({ item }) => {
-  const { classTitle, imgURL } = item;
+const ClassCard = ({ item, refetch }) => {
+  const { classTitle, imgURL, _id } = item;
+  const deleteClassHandler = async (e, classId) => {
+    e.preventDefault();
+    try {
+      const deletedConfirmation = await axios.delete(
+        `http://localhost:5001/api/v1/class/${classId}`
+      );
+      console.log(deletedConfirmation?.data);
+      if (deletedConfirmation?.data?.result?.deletedCount > 0) {
+        toast.success('Class deleted successfully.');
+      } else {
+        toast.error('error' + deletedConfirmation?.data.result?.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+    refetch();
+  };
   return (
     <Link to="/class-details">
       <Card className="w-[310px] shadow rounded-md hover__effect">
@@ -20,8 +39,12 @@ const ClassCard = ({ item }) => {
           }}
           className="h-[120px] w-full rounded-t-md bg-cover bg-center bg-no-repeat flex justify-between items-center px-5 text-white"
         >
-          <Typography variant="h4">{classTitle}</Typography>
-          <BsThreeDotsVertical
+          <Typography variant="h4" className="capitalize">
+            {classTitle}
+          </Typography>
+
+          <BsTrash2
+            onClick={(e) => deleteClassHandler(e, _id)}
             size={40}
             className="p-[10px] hover:bg-gray-600 rounded-full cursor-pointer"
           />

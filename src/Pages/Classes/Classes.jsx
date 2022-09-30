@@ -15,7 +15,6 @@ const Classes = () => {
     ['allClass'],
     async () =>
       await axios.get('http://localhost:5001/api/v1/class').then((res) => {
-        console.log(res.data);
         return res.data.result;
       })
   );
@@ -29,13 +28,17 @@ const Classes = () => {
   return (
     <>
       <NavBar refetch={refetch} />
-      <section>
-        <div className="flex flex-wrap gap-8 items-center mx-auto mt-[120px] px-4 md:px-10 mb-10">
-          {allAddedClass.map((item) => (
-            <ClassCard item={item} key={item._id} />
-          ))}
-        </div>
-      </section>
+      {allAddedClass ? (
+        <section>
+          <div className="flex flex-wrap gap-8 items-center mx-auto mt-[120px] px-4 md:px-10 mb-10">
+            {allAddedClass.map((item) => (
+              <ClassCard item={item} key={item._id} refetch={refetch} />
+            ))}
+          </div>
+        </section>
+      ) : (
+        ''
+      )}
     </>
   );
 };

@@ -1,9 +1,17 @@
-"https://i.ibb.co/pQYx0MG/Honors.jpg",
-"https://i.ibb.co/J2bHLs0/img-reachout.jpg",
-"https://i.ibb.co/YTL7h9J/img-breakfast.jpg",
+"https://i.ibb.co/Yf4spTH/images.jpg",
+"https://i.ibb.co/Wf3Xymd/images.png",
+"https://i.ibb.co/3kNddPv/images-1.jpg",
+"https://i.ibb.co/nCLNddL/images-3.jpg",
+"https://i.ibb.co/QJgyyXC/images-2.jpg",
 "https://i.ibb.co/g3KwdR0/img-bookclub.jpg",
-"https://ibb.co/L5ZXjjZ",
-"https://ibb.co/sgf88t6",
-"https://ibb.co/fQpFFT9",
-"https://ibb.co/Xt4Pscd",
-"https://ibb.co/8PnZ641",
+"https://i.ibb.co/YTL7h9J/img-breakfast.jpg",
+"https://i.ibb.co/J2bHLs0/img-reachout.jpg",
+"https://i.ibb.co/pQYx0MG/Honors.jpg",
+
+
+quality img 
+
+"https://i.ibb.co/g3KwdR0/img-bookclub.jpg",
+"https://i.ibb.co/YTL7h9J/img-breakfast.jpg",
+"https://i.ibb.co/J2bHLs0/img-reachout.jpg",
+"https://i.ibb.co/pQYx0MG/Honors.jpg",
