@@ -1,15 +1,38 @@
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import React from 'react';
+import toast from 'react-hot-toast';
 import NavBar from '../../components/Shared/NavBar';
 import ClassCard from './ClassCard';
 
 const Classes = () => {
+  const {
+    data: allAddedClass,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery(
+    ['allClass'],
+    async () =>
+      await axios.get('http://localhost:5001/api/v1/class').then((res) => {
+        console.log(res.data);
+        return res.data.result;
+      })
+  );
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
+  if (isError) {
+    toast.error(isError?.message);
+  }
+  console.log(allAddedClass);
   return (
     <>
-      <NavBar />
+      <NavBar refetch={refetch} />
       <section>
         <div className="flex flex-wrap gap-8 items-center mx-auto mt-[120px] px-4 md:px-10 mb-10">
-          {[1, 2, 3, 4, 5, 6].map((item) => (
-            <ClassCard />
+          {allAddedClass.map((item) => (
+            <ClassCard item={item} key={item._id} />
           ))}
         </div>
       </section>

@@ -17,11 +17,28 @@ const AddClassModal = ({ handleOpen, open }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const allBanner = [
+    'https://i.ibb.co/pQYx0MG/Honors.jpg',
+    'https://i.ibb.co/J2bHLs0/img-reachout.jpg',
+    'https://i.ibb.co/YTL7h9J/img-breakfast.jpg',
+    'https://i.ibb.co/g3KwdR0/img-bookclub.jpg',
+    'https://ibb.co/L5ZXjjZ',
+    'https://ibb.co/sgf88t6',
+    'https://ibb.co/fQpFFT9',
+    'https://ibb.co/Xt4Pscd',
+    'https://ibb.co/8PnZ641',
+  ];
   const onSubmit = async (data) => {
     try {
+      let selection = 10;
+      while (selection >= 9) {
+        selection = Number(Math.floor(Math.random() * 10));
+      }
       const sendDoc = {
         ...data,
         email: 'iinaamasum@gmail.com',
+        imgURL: allBanner[selection],
       };
       const result = await axios.post(
         'http://localhost:5001/api/v1/class',

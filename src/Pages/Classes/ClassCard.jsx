@@ -9,17 +9,18 @@ import { GrLineChart } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 import banner from '../../assets/Honors.jpg';
 
-const ClassCard = () => {
+const ClassCard = ({ item }) => {
+  const { classTitle, imgURL } = item;
   return (
     <Link to="/class-details">
       <Card className="w-[310px] shadow rounded-md hover__effect">
         <div
           style={{
-            backgroundImage: `url(${banner})`,
+            backgroundImage: `url(${imgURL || banner})`,
           }}
           className="h-[120px] w-full rounded-t-md bg-cover bg-center bg-no-repeat flex justify-between items-center px-5 text-white"
         >
-          <Typography variant="h4">Test Name</Typography>
+          <Typography variant="h4">{classTitle}</Typography>
           <BsThreeDotsVertical
             size={40}
             className="p-[10px] hover:bg-gray-600 rounded-full cursor-pointer"
