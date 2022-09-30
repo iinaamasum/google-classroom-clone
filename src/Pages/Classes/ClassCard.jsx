@@ -8,12 +8,13 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { BsFolderFill, BsTrash } from 'react-icons/bs';
 import { GrLineChart } from 'react-icons/gr';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import banner from '../../assets/Honors.jpg';
 
 const ClassCard = ({ item, refetch }) => {
   const { classTitle, imgURL, _id } = item;
+  const navigate = useNavigate();
   const deleteClassHandler = async (e, classId, classTitle) => {
     e.preventDefault();
     swal({
@@ -61,7 +62,7 @@ const ClassCard = ({ item, refetch }) => {
     refetch();
   };
   return (
-    <Link to="/class-details">
+    <section onClick={() => navigate(`/class-details/${_id}`)}>
       <Card className="w-[310px] shadow rounded-md hover__effect">
         <div
           style={{
@@ -76,8 +77,7 @@ const ClassCard = ({ item, refetch }) => {
           <BsTrash
             onClick={(e) => deleteClassHandler(e, _id, classTitle)}
             size={40}
-            color="red"
-            className="p-[10px] bg-white rounded-full cursor-pointer font-bold"
+            className="p-[10px] bg-white text-red-600 hover:bg-red-500 hover:text-white rounded-full cursor-pointer font-bold transition-all duration-200"
           />
         </div>
 
@@ -93,7 +93,7 @@ const ClassCard = ({ item, refetch }) => {
           </Typography>
         </CardFooter>
       </Card>
-    </Link>
+    </section>
   );
 };
 

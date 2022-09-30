@@ -1,14 +1,36 @@
 import { Avatar, Card, Typography } from '@material-tailwind/react';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { useParams } from 'react-router-dom';
 import userImg from '../../assets/user.jpeg';
+import LoadingComponent from '../../components/Shared/LoadingComponent';
 import NavBar from '../../components/Shared/NavBar';
-import banner from '.././../assets/Honors.jpg';
 import AddedClassWork from './AddedClassWork';
 import CreateClassWork from './CreateClassWork';
 
 const ClassDetails = () => {
   const [createWork, setCreateWork] = useState(false);
+  const { id } = useParams();
+  console.log(id);
+  const {
+    data: classData,
+    isLoading,
+    isError,
+  } = useQuery(['classData'], async () => {
+    const res = await axios.get(`http://localhost:5001/api/v1/class/${id}`);
+    return res.data.result;
+  });
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+  if (isError) {
+    toast.error('No class data found. Please add class first.');
+  }
+  const { classTitle, imgURL, _id } = classData;
+
   return (
     <>
       <NavBar />
@@ -16,11 +38,13 @@ const ClassDetails = () => {
         {/* class details upper portion  */}
         <div
           style={{
-            backgroundImage: `url(${banner})`,
+            backgroundImage: `url(${imgURL})`,
           }}
           className="h-[20vh] md:h-[30vh] rounded-lg flex items-end justify-start p-5 text-white"
         >
-          <Typography variant="h3">Test Class</Typography>
+          <Typography variant="h3" className="capitalize">
+            {classTitle}
+          </Typography>
         </div>
         <div className="flex items-start justify-between gap-8 mt-5">
           {/* left side  */}
@@ -35,9 +59,9 @@ const ClassDetails = () => {
               </Typography>
               <Typography
                 variant="h6"
-                className="text-indigo-500 font-bold mt-2"
+                className="text-indigo-500 font-bold mt-2 text-sm"
               >
-                CSHDDKA
+                {_id}
               </Typography>
             </div>
             <div className="border-[1px] border-opacity-50 border-gray-500 rounded-md p-4 mt-5">

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react';
 import toast from 'react-hot-toast';
+import LoadingComponent from '../../components/Shared/LoadingComponent';
 import NavBar from '../../components/Shared/NavBar';
 import ClassCard from './ClassCard';
 
@@ -19,7 +20,7 @@ const Classes = () => {
       })
   );
   if (isLoading) {
-    return <p>Loading</p>;
+    return <LoadingComponent />;
   }
   if (isError) {
     toast.error('No class found. Please add class first.');

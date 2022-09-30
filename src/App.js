@@ -13,7 +13,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Classes />} />
-        <Route path="/class-details" element={<ClassDetails />} />
+        <Route path="/class-details/:id" element={<ClassDetails />} />
         <Route
           path="/class-details/added-class-work-details"
           element={<AddedClassWorkDetails />}

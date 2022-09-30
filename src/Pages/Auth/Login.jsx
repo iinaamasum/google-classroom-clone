@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useNavigate } from 'react-router-dom';
+import LoadingComponent from '../../components/Shared/LoadingComponent';
 import NavBar from '../../components/Shared/NavBar';
 import auth from '../../firebase.init';
 
@@ -25,11 +26,17 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const [signInWithEmailAndPassword, formUser, formLoading, formError] =
+  let [signInWithEmailAndPassword, formUser, formLoading, formError] =
     useSignInWithEmailAndPassword(auth);
-  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  let [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const onSubmit = async (data) => {
-    await signInWithEmailAndPassword(data.email, data.password);
+    try {
+      await signInWithEmailAndPassword(data.email, data.password);
+    } catch (error) {
+      toast.error(error.message);
+      gError = '';
+      formError = '';
+    }
   };
 
   useEffect(() => {
@@ -40,14 +47,17 @@ const Login = () => {
     }
   }, [formUser, gUser, navigate]);
 
-  if (gError || formError) {
-    const error = gError || formError;
-    toast.error(error.message);
-    error.message = '';
+  if (gError) {
+    toast.error('user not found with the email.');
+    gError = '';
+  }
+  if (formError) {
+    toast.error('User not found with the email.');
+    formError = '';
   }
 
   if (gLoading || formLoading) {
-    return <>loading</>;
+    return <LoadingComponent />;
   }
 
   return (

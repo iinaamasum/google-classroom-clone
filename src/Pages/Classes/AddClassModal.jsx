@@ -49,7 +49,7 @@ const AddClassModal = ({ handleOpen, open, refetch }) => {
         );
       }
     } catch (error) {
-      toast.error('You already created class with the title' + error?.message);
+      toast.error('You already created class with the title.');
     }
     refetch();
     handleOpen();
@@ -161,7 +161,7 @@ const AddClassModal = ({ handleOpen, open, refetch }) => {
         <DialogFooter className="justify-center w-full md:w-[90%] mx-auto px-4 mb-4">
           <div className="grid grid-cols-2 gap-x-4 w-full px-4">
             <Button
-              variant="red"
+              variant="gradient"
               color="red"
               onClick={handleOpen}
               className="h-[45px] min-h-16 flex items-center justify-center"

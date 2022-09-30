@@ -16,6 +16,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useNavigate } from 'react-router-dom';
+import LoadingComponent from '../../components/Shared/LoadingComponent';
 import NavBar from '../../components/Shared/NavBar';
 import auth from '../../firebase.init';
 
@@ -37,8 +38,7 @@ const Register = () => {
     try {
       await createUserWithEmailAndPassword(data.email, data.password);
     } catch (error) {
-      toast.error(error.message);
-      error.message = '';
+      console.log(error);
     }
   };
 
@@ -52,12 +52,12 @@ const Register = () => {
 
   if (formError || gError) {
     const error = formError || gError;
-    toast.error(error.message);
+    if (error?.message) toast.error(error);
     error.message = '';
   }
 
   if (formLoading || gLoading) {
-    return <>loading</>;
+    return <LoadingComponent />;
   }
   return (
     <>
