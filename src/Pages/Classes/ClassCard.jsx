@@ -6,7 +6,7 @@ import {
 } from '@material-tailwind/react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { BsFolderFill, BsTrash2 } from 'react-icons/bs';
+import { BsFolderFill, BsTrash } from 'react-icons/bs';
 import { GrLineChart } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
@@ -18,7 +18,7 @@ const ClassCard = ({ item, refetch }) => {
     e.preventDefault();
     swal({
       title: 'Are you sure?',
-      text: `Once deleted, you will not be able to recover this "${classTitle.toUpperCase()}"!`,
+      text: `Once deleted, you will not be able to recover this class -- "${classTitle.toUpperCase()}"!`,
       icon: 'warning',
       buttons: true,
       dangerMode: true,
@@ -30,13 +30,19 @@ const ClassCard = ({ item, refetch }) => {
           );
           console.log(deletedConfirmation?.data);
           if (deletedConfirmation?.data?.result?.deletedCount > 0) {
-            swal(`${classTitle} class has been deleted!`, {
+            swal({
+              title: 'Deletion process completed.',
+              text: `${classTitle.toUpperCase()} class has been deleted!!`,
               icon: 'success',
             });
           } else {
-            swal(
-              `${classTitle} deletion stopped by you. Error ${deletedConfirmation?.data.result?.message}. Please check your network connection.`
-            );
+            swal({
+              title: 'Error occurred',
+              text: `${classTitle.toUpperCase()} class deletion stopped by you. Error ${
+                deletedConfirmation?.data.result?.message
+              }. Please check your network connection!`,
+              icon: 'error',
+            });
             toast.error();
           }
           refetch();
@@ -44,7 +50,11 @@ const ClassCard = ({ item, refetch }) => {
           toast.error(error.message);
         }
       } else {
-        swal(`${classTitle.toUpperCase()} deletion stopped by you.`);
+        swal({
+          title: 'Deletion Stopped',
+          text: `${classTitle.toUpperCase()} class deletion stopped by you!`,
+          icon: 'error',
+        });
       }
     });
 
@@ -63,10 +73,11 @@ const ClassCard = ({ item, refetch }) => {
             {classTitle}
           </Typography>
 
-          <BsTrash2
+          <BsTrash
             onClick={(e) => deleteClassHandler(e, _id, classTitle)}
             size={40}
-            className="p-[10px] hover:bg-gray-600 rounded-full cursor-pointer"
+            color="red"
+            className="p-[10px] bg-white rounded-full cursor-pointer font-bold"
           />
         </div>
 
