@@ -22,7 +22,7 @@ const Classes = () => {
     return <p>Loading</p>;
   }
   if (isError) {
-    toast.error(isError?.message);
+    toast.error('No class found. Please add class first.');
   }
   console.log(allAddedClass);
   return (

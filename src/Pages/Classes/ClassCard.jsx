@@ -9,25 +9,45 @@ import toast from 'react-hot-toast';
 import { BsFolderFill, BsTrash2 } from 'react-icons/bs';
 import { GrLineChart } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
 import banner from '../../assets/Honors.jpg';
 
 const ClassCard = ({ item, refetch }) => {
   const { classTitle, imgURL, _id } = item;
-  const deleteClassHandler = async (e, classId) => {
+  const deleteClassHandler = async (e, classId, classTitle) => {
     e.preventDefault();
-    try {
-      const deletedConfirmation = await axios.delete(
-        `http://localhost:5001/api/v1/class/${classId}`
-      );
-      console.log(deletedConfirmation?.data);
-      if (deletedConfirmation?.data?.result?.deletedCount > 0) {
-        toast.success('Class deleted successfully.');
+    swal({
+      title: 'Are you sure?',
+      text: `Once deleted, you will not be able to recover this "${classTitle.toUpperCase()}"!`,
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        try {
+          const deletedConfirmation = await axios.delete(
+            `http://localhost:5001/api/v1/class/${classId}`
+          );
+          console.log(deletedConfirmation?.data);
+          if (deletedConfirmation?.data?.result?.deletedCount > 0) {
+            swal(`${classTitle} class has been deleted!`, {
+              icon: 'success',
+            });
+          } else {
+            swal(
+              `${classTitle} deletion stopped by you. Error ${deletedConfirmation?.data.result?.message}. Please check your network connection.`
+            );
+            toast.error();
+          }
+          refetch();
+        } catch (error) {
+          toast.error(error.message);
+        }
       } else {
-        toast.error('error' + deletedConfirmation?.data.result?.message);
+        swal(`${classTitle.toUpperCase()} deletion stopped by you.`);
       }
-    } catch (error) {
-      toast.error(error.message);
-    }
+    });
+
     refetch();
   };
   return (
@@ -44,7 +64,7 @@ const ClassCard = ({ item, refetch }) => {
           </Typography>
 
           <BsTrash2
-            onClick={(e) => deleteClassHandler(e, _id)}
+            onClick={(e) => deleteClassHandler(e, _id, classTitle)}
             size={40}
             className="p-[10px] hover:bg-gray-600 rounded-full cursor-pointer"
           />
