@@ -1,6 +1,7 @@
 import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from 'react-router-dom';
 import Login from './Pages/Auth/Login';
+import ProfileInfo from './Pages/Auth/ProfileInfo';
 import Register from './Pages/Auth/Register';
 import AddedClassWorkDetails from './Pages/ClassDashboard/AddedClassWorkDetails';
 import ClassDetails from './Pages/ClassDashboard/ClassDetails';
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile-info" element={<ProfileInfo />} />
         <Route path="/" element={<Classes />} />
         <Route path="/class-details/:id" element={<ClassDetails />} />
         <Route

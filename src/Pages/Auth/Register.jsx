@@ -45,7 +45,7 @@ const Register = () => {
   useEffect(() => {
     const currentUser = user || formUser || gUser;
     if (currentUser) {
-      navigate('/');
+      navigate('/profile-info');
       toast.success('Successfully Account Registered.');
     }
   }, [user, formUser, gUser, navigate]);
