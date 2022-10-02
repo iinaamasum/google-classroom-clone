@@ -36,8 +36,9 @@ const ProfileInfo = () => {
       if (postedData.status === 'failed') {
         toast.error(postedData.message);
       }
-      navigate('/');
+
       toast.success('Successfully updated user information.');
+      navigate('/');
     } catch (error) {
       toast.error("Can't update info. Please check internet connection.");
     }

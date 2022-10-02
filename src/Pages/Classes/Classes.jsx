@@ -1,12 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import React from 'react';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import LoadingComponent from '../../components/Shared/LoadingComponent';
 import NavBar from '../../components/Shared/NavBar';
+import auth from '../../firebase.init';
 import ClassCard from './ClassCard';
 
 const Classes = () => {
+  const [user, userLoading] = useAuthState(auth);
+  const [userSpecificClass, setUserSpecificClass] = useState([]);
   const {
     data: allAddedClass,
     isLoading,
@@ -15,23 +18,47 @@ const Classes = () => {
   } = useQuery(
     ['allClass'],
     async () =>
-      await axios.get('http://localhost:5001/api/v1/class').then((res) => {
+      await axios.get(`http://localhost:5001/api/v1/class`).then((res) => {
         return res.data.result;
-      })
+      }),
+    {
+      retry: false,
+    }
   );
+
+  useEffect(() => {
+    if (user.email && allAddedClass?.length > 0) {
+      const tempClass = allAddedClass.filter((data) => {
+        if (data.email === user.email) return data;
+        let retVal = false;
+        data.usersSubscribe.forEach((sub) => {
+          if (user.email === sub) {
+            retVal = true;
+          }
+        });
+        if (retVal) return data;
+      });
+      setUserSpecificClass(tempClass);
+    }
+  }, [user, allAddedClass]);
+  console.log(user);
+  if (userLoading) {
+    return <LoadingComponent />;
+  }
+
   if (isLoading) {
     return <LoadingComponent />;
   }
-  if (isError) {
-    toast.error('No class found. Please add class first.');
-  }
+
+  console.log(allAddedClass);
+
   return (
     <>
       <NavBar refetch={refetch} />
-      {allAddedClass ? (
+      {userSpecificClass ? (
         <section>
           <div className="flex flex-wrap gap-8 items-center mx-auto mt-[120px] px-4 md:px-10 mb-10">
-            {allAddedClass.map((item) => (
+            {userSpecificClass.map((item) => (
               <ClassCard item={item} key={item._id} refetch={refetch} />
             ))}
           </div>

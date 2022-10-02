@@ -55,7 +55,7 @@ const AddClassModal = ({ handleOpen, open, refetch }) => {
         );
       }
     } catch (error) {
-      toast.error('You already created class with the title.');
+      toast.error('Class is not created. ' + error.message);
     }
     handleOpen();
     navigate('/');

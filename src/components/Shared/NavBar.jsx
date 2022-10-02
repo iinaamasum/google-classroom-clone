@@ -6,16 +6,25 @@ import {
   MenuItem,
   MenuList,
 } from '@material-tailwind/react';
+import { signOut } from 'firebase/auth';
 import { useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { HiMenuAlt4 } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import userImg from '../../assets/user.jpeg';
+import auth from '../../firebase.init';
 import AddClassModal from '../../Pages/Classes/AddClassModal';
 import JoinClassModal from '../../Pages/Classes/JoinClassModal';
+import LoadingComponent from './LoadingComponent';
 
 const NavBar = ({ refetch }) => {
   const [open, setOpen] = useState(false);
   const [joinClassModalOpen, setJoinClassModalOpen] = useState(false);
+  const [user, userLoading] = useAuthState(auth);
+  if (userLoading) {
+    return <LoadingComponent />;
+  }
+
   const handleOpen = () => setOpen(!open);
   const handleJoinClassModalOpen = () =>
     setJoinClassModalOpen(!joinClassModalOpen);
@@ -45,26 +54,39 @@ const NavBar = ({ refetch }) => {
             Classroom
           </div>
         </Link>
-        <div className="flex items-center gap-x-3">
-          <Menu>
-            <MenuHandler>
-              <Button className="bg-[#fff] hover:bg-[#dddeee] rounded-full cursor-pointer shadow-none hover:shadow-none h-10 w-10 text-current inline-flex items-center justify-center text-4xl font-thin p-0">
-                +
-              </Button>
-            </MenuHandler>
-            <MenuList>
-              <MenuItem onClick={handleOpen}>Create Class</MenuItem>
-              <MenuItem onClick={handleJoinClassModalOpen}>Join Class</MenuItem>
-            </MenuList>
-          </Menu>
+        {user && (
+          <div className="flex items-center gap-x-3">
+            <Menu>
+              <MenuHandler>
+                <Button className="bg-[#fff] hover:bg-[#dddeee] rounded-full cursor-pointer shadow-none hover:shadow-none h-10 w-10 text-current inline-flex items-center justify-center text-4xl font-thin p-0">
+                  +
+                </Button>
+              </MenuHandler>
+              <MenuList>
+                <MenuItem onClick={handleOpen}>Create Class</MenuItem>
+                <MenuItem onClick={handleJoinClassModalOpen}>
+                  Join Class
+                </MenuItem>
+              </MenuList>
+            </Menu>
 
-          <Avatar
-            className="h-11 w-11 p-1 hover:bg-[#dddeee] rounded-full cursor-pointer"
-            src={userImg}
-            alt="avatar"
-            variant="circular"
-          />
-        </div>
+            <Menu>
+              <MenuHandler>
+                <Avatar
+                  as={Button}
+                  className="h-11 w-11 p-1 hover:bg-[#dddeee] rounded-full cursor-pointer"
+                  src={userImg}
+                  alt="avatar"
+                  variant="circular"
+                />
+              </MenuHandler>
+              <MenuList>
+                <MenuItem>{user?.email}</MenuItem>
+                <MenuItem onClick={() => signOut(auth)}>Log Out</MenuItem>
+              </MenuList>
+            </Menu>
+          </div>
+        )}
       </div>
       {open && (
         <AddClassModal open={open} handleOpen={handleOpen} refetch={refetch} />
@@ -73,7 +95,7 @@ const NavBar = ({ refetch }) => {
         <JoinClassModal
           joinClassModalOpen={joinClassModalOpen}
           handleJoinClassModalOpen={handleJoinClassModalOpen}
-          // refetch={refetch}
+          refetch={refetch}
         />
       )}
     </section>
