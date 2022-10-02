@@ -11,10 +11,14 @@ import { HiMenuAlt4 } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import userImg from '../../assets/user.jpeg';
 import AddClassModal from '../../Pages/Classes/AddClassModal';
+import JoinClassModal from '../../Pages/Classes/JoinClassModal';
 
 const NavBar = ({ refetch }) => {
   const [open, setOpen] = useState(false);
+  const [joinClassModalOpen, setJoinClassModalOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
+  const handleJoinClassModalOpen = () =>
+    setJoinClassModalOpen(!joinClassModalOpen);
   return (
     <section
       style={{
@@ -50,7 +54,7 @@ const NavBar = ({ refetch }) => {
             </MenuHandler>
             <MenuList>
               <MenuItem onClick={handleOpen}>Create Class</MenuItem>
-              <MenuItem>Join Class</MenuItem>
+              <MenuItem onClick={handleJoinClassModalOpen}>Join Class</MenuItem>
             </MenuList>
           </Menu>
 
@@ -64,6 +68,13 @@ const NavBar = ({ refetch }) => {
       </div>
       {open && (
         <AddClassModal open={open} handleOpen={handleOpen} refetch={refetch} />
+      )}
+      {joinClassModalOpen && (
+        <JoinClassModal
+          joinClassModalOpen={joinClassModalOpen}
+          handleJoinClassModalOpen={handleJoinClassModalOpen}
+          // refetch={refetch}
+        />
       )}
     </section>
   );

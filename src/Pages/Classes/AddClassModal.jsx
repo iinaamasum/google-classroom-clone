@@ -10,6 +10,7 @@ import axios from 'axios';
 
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const AddClassModal = ({ handleOpen, open, refetch }) => {
   const {
@@ -17,6 +18,7 @@ const AddClassModal = ({ handleOpen, open, refetch }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
   const allBanner = [
     'https://i.ibb.co/g3KwdR0/img-bookclub.jpg',
@@ -51,8 +53,9 @@ const AddClassModal = ({ handleOpen, open, refetch }) => {
     } catch (error) {
       toast.error('You already created class with the title.');
     }
-    refetch();
     handleOpen();
+    navigate('/');
+    refetch();
   };
   return (
     <>
