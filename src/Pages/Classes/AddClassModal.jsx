@@ -7,10 +7,12 @@ import {
   Input,
 } from '@material-tailwind/react';
 import axios from 'axios';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import auth from '../../firebase.init';
 
 const AddClassModal = ({ handleOpen, open, refetch }) => {
   const {
@@ -19,6 +21,7 @@ const AddClassModal = ({ handleOpen, open, refetch }) => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
+  const [user] = useAuthState(auth);
 
   const allBanner = [
     'https://i.ibb.co/g3KwdR0/img-bookclub.jpg',
@@ -34,8 +37,9 @@ const AddClassModal = ({ handleOpen, open, refetch }) => {
       }
       const sendDoc = {
         ...data,
-        email: 'plabon@gmail.com',
+        email: user.email,
         imgURL: allBanner[selection],
+        usersSubscribe: [user.email],
       };
       const result = await axios.post(
         'http://localhost:5001/api/v1/class',

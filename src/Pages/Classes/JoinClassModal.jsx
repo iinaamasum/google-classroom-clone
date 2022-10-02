@@ -6,9 +6,13 @@ import {
   DialogHeader,
   Input,
 } from '@material-tailwind/react';
+import axios from 'axios';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import LoadingComponent from '../../components/Shared/LoadingComponent';
 import auth from '../../firebase.init';
 
 const JoinClassModal = ({ joinClassModalOpen, handleJoinClassModalOpen }) => {
@@ -17,12 +21,56 @@ const JoinClassModal = ({ joinClassModalOpen, handleJoinClassModalOpen }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
-  const [user] = useAuthState(auth);
+  const [user, userLoading] = useAuthState(auth);
 
   const onSubmit = async (data) => {
-    alert(JSON.stringify(data));
+    try {
+      const classData = await axios
+        .get(`http://localhost:5001/api/v1/class/${data.classCode}`)
+        .then((res) => res.data);
+      if (classData.status === 'failed') {
+        toast.error(classData.message);
+      }
+      let isCopy = false;
+      classData.result.usersSubscribe.forEach((subUser) => {
+        if (subUser === user.email) {
+          toast.error('Already Subscribe to the account.');
+          isCopy = true;
+          return;
+        }
+      });
+      if (isCopy) {
+        return;
+      }
+      const newData = {
+        ...classData.result,
+        usersSubscribe: [...classData.result.usersSubscribe, user.email],
+      };
+
+      const updatedClassData = await axios
+        .patch(`http://localhost:5001/api/v1/class/${newData._id}`, newData)
+        .then((res) => res.data);
+
+      if (updatedClassData.status === 'failed') {
+        toast.error("Can't join the class.");
+        return;
+      }
+      console.log(updatedClassData);
+      if (updatedClassData.result.modifiedCount > 0) {
+        toast.success('Joined the class successfully.');
+        console.log(newData._id);
+        navigate(`/class-details/${newData._id}`);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
+
+  if (userLoading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <>

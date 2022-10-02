@@ -25,7 +25,6 @@ const Classes = () => {
   if (isError) {
     toast.error('No class found. Please add class first.');
   }
-  console.log(allAddedClass);
   return (
     <>
       <NavBar refetch={refetch} />

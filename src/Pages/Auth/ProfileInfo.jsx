@@ -6,9 +6,12 @@ import {
   Input,
   Typography,
 } from '@material-tailwind/react';
+import axios from 'axios';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import LoadingComponent from '../../components/Shared/LoadingComponent';
 import NavBar from '../../components/Shared/NavBar';
 import auth from '../../firebase.init';
 
@@ -17,12 +20,32 @@ const ProfileInfo = () => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
   } = useForm();
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {};
+  const onSubmit = async (data) => {
+    try {
+      const postedData = await axios
+        .post('http://localhost:5001/api/v1/user-info', {
+          userEmail: user?.email,
+          userName: data.userName,
+          contactNumber: data.contactNumber,
+        })
+        .then((res) => res.data);
+      if (postedData.status === 'failed') {
+        toast.error(postedData.message);
+      }
+      navigate('/');
+      toast.success('Successfully updated user information.');
+    } catch (error) {
+      toast.error("Can't update info. Please check internet connection.");
+    }
+  };
+
+  if (loading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <>
@@ -85,7 +108,7 @@ const ProfileInfo = () => {
               </div>
               {/* user email section  */}
               <div className="mt-2 text-center">
-                <p>Joining As - {user.email}</p>
+                <p>Joining As - {user?.email}</p>
               </div>
             </form>
           </CardBody>
