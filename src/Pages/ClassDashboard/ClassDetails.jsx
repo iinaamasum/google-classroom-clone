@@ -14,7 +14,6 @@ import CreateClassWork from './CreateClassWork';
 const ClassDetails = () => {
   const [createWork, setCreateWork] = useState(false);
   const { id } = useParams();
-  console.log(id);
   const {
     data: classData,
     isLoading,
@@ -86,6 +85,7 @@ const ClassDetails = () => {
                 <CreateClassWork
                   createWork={createWork}
                   setCreateWork={setCreateWork}
+                  classId={_id}
                 />
               ) : (
                 <>

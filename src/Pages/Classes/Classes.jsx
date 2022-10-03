@@ -50,8 +50,6 @@ const Classes = () => {
     return <LoadingComponent />;
   }
 
-  console.log(allAddedClass);
-
   return (
     <>
       <NavBar refetch={refetch} />

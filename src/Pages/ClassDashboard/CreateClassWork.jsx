@@ -3,12 +3,19 @@ import {
   Card,
   Input,
   Textarea,
+  Tooltip,
   Typography,
 } from '@material-tailwind/react';
-import React from 'react';
-import { FiLink2, FiUpload } from 'react-icons/fi';
+import React, { useState } from 'react';
+import { FiUpload } from 'react-icons/fi';
+import { MdCancel } from 'react-icons/md';
 
-const CreateClassWork = ({ createWork, setCreateWork }) => {
+const CreateClassWork = ({ createWork, setCreateWork, classId }) => {
+  const [workFile, setWorkFile] = useState(null);
+  const handleFileChange = (e) => {
+    setWorkFile(e.target.files[0]);
+  };
+  console.log(classId);
   return (
     <section>
       <Card
@@ -42,16 +49,46 @@ const CreateClassWork = ({ createWork, setCreateWork }) => {
             </div>
           </div>
         </div>
-        <div className="my-2 flex items-center justify-between">
+        {workFile && (
+          <div className="flex gap-x-10 items-center border-[1px] justify-center py-5">
+            <Tooltip content="Uploaded File Name">
+              <p className="text-xl">{workFile.name}</p>
+            </Tooltip>
+            <Tooltip content="Cancel selection">
+              <p>
+                <MdCancel
+                  size={25}
+                  color="red"
+                  className="cursor-pointer"
+                  onClick={() => setWorkFile(null)}
+                />
+              </p>
+            </Tooltip>
+          </div>
+        )}
+
+        <div className="mt-5 mb-2 flex items-center justify-between">
           <div className="flex items-center gap-3 text-indigo-600 font-bold">
-            <FiUpload
+            <input
+              className="hidden"
+              onChange={(e) => handleFileChange(e)}
+              type="file"
+              name="workFile"
+              id="class-work-file"
+            />
+            <Tooltip content="Click to upload file">
+              <label htmlFor="class-work-file">
+                <FiUpload
+                  size={40}
+                  className="p-[6px] hover:bg-[#dddeee] rounded-full cursor-pointer border-[1px] border-gray-400"
+                />
+              </label>
+            </Tooltip>
+
+            {/* <FiLink2
               size={40}
               className="p-[6px] hover:bg-[#dddeee] rounded-full cursor-pointer border-[1px] border-gray-400"
-            />
-            <FiLink2
-              size={40}
-              className="p-[6px] hover:bg-[#dddeee] rounded-full cursor-pointer border-[1px] border-gray-400"
-            />
+            /> */}
           </div>
           <div className="flex items-center gap-4">
             <Button
