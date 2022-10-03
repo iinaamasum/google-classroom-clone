@@ -39,7 +39,7 @@ function App() {
           }
         />
         <Route
-          path="/class-details/added-class-work-details"
+          path="/class-details/added-class-work-details/:workId"
           element={
             <RequireAuth>
               <AddedClassWorkDetails />
