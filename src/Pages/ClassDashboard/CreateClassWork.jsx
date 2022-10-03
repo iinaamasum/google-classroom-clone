@@ -59,6 +59,8 @@ const CreateClassWork = ({
       filename = classWorkResponse.file.filename;
     }
 
+    console.log(path, filename);
+
     try {
       const postingWorkData = {
         ...data,

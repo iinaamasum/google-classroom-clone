@@ -7,13 +7,13 @@ import { MdBook } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 
-const AddedClassWorkCard = ({ item }) => {
+const AddedClassWorkCard = ({ item, refetchClassWork }) => {
   const { workTitle, createdAt, _id } = item;
   const deleteClassWorkHandler = async (e, workId, workTitle) => {
     e.preventDefault();
     swal({
       title: 'Are you sure?',
-      text: `Once deleted, you will not be able to recover this class -- "${workTitle.toUpperCase()}"!`,
+      text: `Once deleted, you will not be able to recover this class work -- "${workTitle.toUpperCase()}"!`,
       icon: 'warning',
       buttons: true,
       dangerMode: true,
@@ -21,39 +21,39 @@ const AddedClassWorkCard = ({ item }) => {
       if (willDelete) {
         try {
           const deletedConfirmation = await axios.delete(
-            `http://localhost:5001/api/v1/class/${workId}`
+            `http://localhost:5001/api/v1/class-work/${workId}`
           );
 
           if (deletedConfirmation?.data?.result?.deletedCount > 0) {
             swal({
               title: 'Deletion process completed.',
-              text: `${workTitle.toUpperCase()} class has been deleted!!`,
+              text: `${workTitle.toUpperCase()} class work has been deleted!!`,
               icon: 'success',
             });
           } else {
             swal({
               title: 'Error occurred',
-              text: `${workTitle.toUpperCase()} class deletion stopped by you. Error ${
+              text: `${workTitle.toUpperCase()} class work deletion stopped by you. Error ${
                 deletedConfirmation?.data.result?.message
               }. Please check your network connection!`,
               icon: 'error',
             });
             toast.error();
           }
-          // refetch();
+          refetchClassWork();
         } catch (error) {
           toast.error(error.message);
         }
       } else {
         swal({
           title: 'Deletion Stopped',
-          text: `${workTitle.toUpperCase()} class deletion stopped by you!`,
+          text: `${workTitle.toUpperCase()} class work deletion stopped by you!`,
           icon: 'error',
         });
       }
     });
 
-    // refetch();
+    refetchClassWork();
   };
   return (
     <section>

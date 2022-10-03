@@ -137,7 +137,11 @@ const ClassDetails = () => {
             <div className="my-5 grid grid-cols-1 gap-5">
               {allClassWork?.status === 'success' &&
                 allClassWork.result.map((item) => (
-                  <AddedClassWorkCard key={item._id} item={item} />
+                  <AddedClassWorkCard
+                    key={item._id}
+                    item={item}
+                    refetchClassWork={refetchClassWork}
+                  />
                 ))}
             </div>
           </div>
