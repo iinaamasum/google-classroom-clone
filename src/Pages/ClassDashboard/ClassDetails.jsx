@@ -105,10 +105,8 @@ const ClassDetails = () => {
                 </>
               )}
             </>
-            <div className="my-5 grid grid-cols-1 gap-5">
-              {[1, 2, 3].map((classPost) => (
-                <AddedClassWork />
-              ))}
+            <div>
+              <AddedClassWork classId={id} />
             </div>
           </div>
         </div>
