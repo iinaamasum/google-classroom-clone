@@ -41,7 +41,6 @@ const Classes = () => {
       setUserSpecificClass(tempClass);
     }
   }, [user, allAddedClass]);
-  console.log(user);
   if (userLoading) {
     return <LoadingComponent />;
   }

@@ -28,7 +28,7 @@ const ClassCard = ({ item, refetch }) => {
           const deletedConfirmation = await axios.delete(
             `http://localhost:5001/api/v1/class/${classId}`
           );
-          console.log(deletedConfirmation?.data);
+
           if (deletedConfirmation?.data?.result?.deletedCount > 0) {
             swal({
               title: 'Deletion process completed.',

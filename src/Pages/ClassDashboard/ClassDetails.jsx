@@ -1,19 +1,20 @@
 import { Avatar, Card, Typography } from '@material-tailwind/react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import userImg from '../../assets/user.jpeg';
 import LoadingComponent from '../../components/Shared/LoadingComponent';
 import NavBar from '../../components/Shared/NavBar';
-import AddedClassWork from './AddedClassWork';
+import AddedClassWorkCard from './AddedClassWorkCard';
 import CreateClassWork from './CreateClassWork';
 
 const ClassDetails = () => {
   const [createWork, setCreateWork] = useState(false);
   const { id } = useParams();
+
   const {
     data: classData,
     isLoading,
@@ -22,6 +23,33 @@ const ClassDetails = () => {
     const res = await axios.get(`http://localhost:5001/api/v1/class/${id}`);
     return res.data.result;
   });
+
+  const {
+    data: allClassWork,
+    isLoading: isLoadingClassWork,
+    refetch: refetchClassWork,
+  } = useQuery(
+    ['allClassWork'],
+    async () =>
+      await axios
+        .get(`http://localhost:5001/api/v1/class-work?classId=${id}`)
+        .then((res) => res.data),
+    {
+      retry: false,
+    }
+  );
+  useEffect(() => {
+    if (!allClassWork) {
+      return;
+    }
+  }, [allClassWork]);
+
+  if (isLoadingClassWork) {
+    return <LoadingComponent />;
+  }
+
+  console.log(allClassWork);
+
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -86,6 +114,7 @@ const ClassDetails = () => {
                   createWork={createWork}
                   setCreateWork={setCreateWork}
                   classId={_id}
+                  refetchClassWork={refetchClassWork}
                 />
               ) : (
                 <>
@@ -105,8 +134,11 @@ const ClassDetails = () => {
                 </>
               )}
             </>
-            <div>
-              <AddedClassWork classId={id} />
+            <div className="my-5 grid grid-cols-1 gap-5">
+              {allClassWork?.status === 'success' &&
+                allClassWork.result.map((item) => (
+                  <AddedClassWorkCard key={item._id} item={item} />
+                ))}
             </div>
           </div>
         </div>

@@ -16,7 +16,12 @@ import { MdCancel } from 'react-icons/md';
 import LoadingComponent from '../../components/Shared/LoadingComponent';
 import auth from '../../firebase.init';
 
-const CreateClassWork = ({ createWork, setCreateWork, classId }) => {
+const CreateClassWork = ({
+  createWork,
+  setCreateWork,
+  classId,
+  refetchClassWork,
+}) => {
   const [workFile, setWorkFile] = useState(null);
   const { handleSubmit, register } = useForm();
   const [user, userLoading] = useAuthState(auth);
@@ -66,7 +71,7 @@ const CreateClassWork = ({ createWork, setCreateWork, classId }) => {
     } catch (error) {
       toast.error(error.message);
     }
-
+    refetchClassWork();
     setCreateWork(!createWork);
   };
 
