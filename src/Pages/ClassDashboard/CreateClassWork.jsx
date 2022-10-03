@@ -39,21 +39,25 @@ const CreateClassWork = ({
       toast.error('Work details should be filled.');
       return;
     }
-
-    let classWorkResponse;
-    try {
-      const formData = new FormData();
-      formData.append('workFile', workFile);
-      classWorkResponse = await axios
-        .post('http://localhost:5001/api/v1/class-work/file-upload', formData)
-        .then((res) => res.data);
-      console.log('first', classWorkResponse);
-    } catch (error) {
-      toast.error(error.message);
-      return;
+    let path = '',
+      filename = '';
+    if (workFile) {
+      let classWorkResponse;
+      try {
+        const formData = new FormData();
+        formData.append('workFile', workFile);
+        classWorkResponse = await axios
+          .post('http://localhost:5001/api/v1/class-work/file-upload', formData)
+          .then((res) => res.data);
+        console.log('first', classWorkResponse);
+      } catch (error) {
+        toast.error(error.message);
+        return;
+      }
+      if (!classWorkResponse) return;
+      path = classWorkResponse.file.path;
+      filename = classWorkResponse.file.filename;
     }
-    if (!classWorkResponse) return;
-    const { filename, path } = classWorkResponse.file;
 
     try {
       const postingWorkData = {
